@@ -35,10 +35,19 @@ def Book_Resource(query) -> list:
 					if str(link) not in pdfList:
 						pdfList.append(str(link))
 			try:
-				driver.find_element("id","pnnext").click()
-				time.sleep(2)
-				search_results = driver.find_elements("css selector",".tF2Cxc")
+				driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+				time.sleep(3)
+				new_search_results = driver.find_elements("css selector",".tF2Cxc")
+				if len(new_search_results) == len(search_results):
+					next_button = driver.find_element('xpath','//*[@id="botstuff"]/div/div[3]/div[4]/a[1]/h3/div/span[2]')
+					next_button.click()
+					time.sleep(4)
+					search_results = driver.find_elements("css selector",".tF2Cxc")
+					
+				else:
+					search_results = new_search_results
 
+			
 			except:
 				break
 	except WebDriverException:
